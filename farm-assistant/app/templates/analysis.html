@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- STYLES CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/analysis.css') }}">
+
+    <!-- BOX ICONS CSS-->
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <title>Analysis</title>
+</head>
+
+<body id="body">
+    <div class="l-navbar" id="navbar">
+        <nav class="nav">
+            <div>
+                <a href="/" class="nav__logo">
+                    <img src="{{ url_for('static', path='img/logo.svg') }}" alt="" class="nav__logo-icon">
+                    <span class="nav__logo-text">Bedimcode</span>
+                </a>
+
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class='bx bx-chevron-right'></i>
+                </div>
+
+                <ul class="nav__list">
+                    <a href="/dashboard" class="nav__link">
+                        <i class='bx bx-grid-alt nav__icon'></i>
+                        <span class="nav__text">Dashboard</span>
+                    </a>
+                    <a href="/analysis" class="nav__link active">
+                        <i class='bx bx-analyse nav__icon'></i>
+                        <span class="nav__text">Analysis</span>
+                    </a>
+                    <a href="/auth" class="nav__link">
+                        <i class='bx bx-user nav__icon'></i>
+                        <span class="nav__text">User</span>
+                    </a>
+                    <a href="/chat" class="nav__link">
+                        <i class='bx bx-message-rounded nav__icon'></i>
+                        <span class="nav__text">Chat</span>
+                    </a>
+                </ul>
+            </div>
+            <a href="#" class="nav__link">
+                <i class='bx bx-log-out-circle nav__icon'></i>
+                <span class="nav__text">Close</span>
+            </a>
+        </nav>
+    </div>
+
+    <div class="analysis">
+
+        <div class="dashboard">
+
+            <ul>
+
+                <li><a href="">Contact Us</a></li>
+
+            </ul>
+
+            <button class="btn">Analyze Image</button>
+
+        </div>
+
+        <div class="container flex">
+
+            <div class="right">
+
+                <h3>What did the analysis discover?</h3>
+                <h4> This plant is infected with {{ analysis['prediction'] }}</h4>
+                <p>
+                    Common rust is caused by the fungus Puccinia sorghi and occurs every
+                    growing season. It is seldom a concern in hybrid corn. Rust pustules
+                    usually first appear in late June. Early symptoms of common rust are
+                    chlorotic flecks on the leaf surface. These soon develop into powdery,
+                    brick-red pustules as the spores break through the leaf surface.
+                    Pustules are oval or elongated, about 1/8 inch long, and scattered
+                    sparsely or clustered together. The leaf tissue around the pustules
+                    may become yellow or die, leaving lesions of dead tissue. The lesions
+                    sometimes form a band across the leaf and entire leaves will die if
+                    severely infected.
+                </p>
+                <div class="table">
+
+                    <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">Disease</th>
+                            <th scope="col">Model Certainity</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for key in analysis['predictions'] %}
+                                <tr>
+                                    <td>{{ key }}</td>
+                                    <td>{{ analysis['predictions'][key] }} %</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                      </table>
+
+                </div>
+
+                <form action="/chat">
+                    <button type="submit" class="btn">Chat with Plant Expert</button>
+                </form>
+
+                <!-- <button>Chat with Plant Expert</button> -->
+
+            </div>
+
+            <div class="left">
+
+                <div class="main_image">
+                    <img src="{{ url_for('static', path='img/maize.jpg') }}" class="slide">
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</body>
+<!-- MAIN JS -->
+<script src="{{ url_for('static', path='js/dashboard.js') }}"></script>
+
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- STYLES CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', path='css/dashboard.css') }}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', path='css/dashboard.css') }}">
+
+        <!-- BOX ICONS CSS-->
+        <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+        <title>Dashboard</title>
+    </head>
+    <body id="body">
+        <div class="l-navbar" id="navbar">
+            <nav class="nav">
+                <div>
+                    <a href="/" class="nav__logo">
+                        <img src="{{ url_for('static', path='img/logo.svg') }}" alt="" class="nav__logo-icon">
+                        <span class="nav__logo-text">Bedimcode</span>
+                    </a>
+    
+                    <div class="nav__toggle" id="nav-toggle">
+                        <i class='bx bx-chevron-right'></i>
+                    </div>
+    
+                    <ul class="nav__list">
+                        <a href="/dashboard" class="nav__link active">
+                            <i class='bx bx-grid-alt nav__icon'></i>
+                            <span class="nav__text">Dashboard</span>
+                        </a>
+                        <a href="/analysis/upload" class="nav__link">
+                            <i class='bx bx-analyse nav__icon' ></i>
+                            <span class="nav__text">Analysis</span>
+                        </a>
+                        <a href="/auth" class="nav__link">
+                            <i class='bx bx-user nav__icon' ></i>
+                            <span class="nav__text">User</span>
+                        </a>
+                        <a href="/chat" class="nav__link">
+                            <i class='bx bx-message-rounded nav__icon' ></i>
+                            <span class="nav__text">Chat</span>
+                        </a>                 
+                    </ul>
+                </div>
+                <a href="/" class="nav__link">           
+                    <i class='bx bx-log-out-circle nav__icon'></i>
+                    <span class="nav__text">Close</span>
+                </a>
+            </nav>
+        </div>
+
+
+        <div class="custom-content">
+
+            <div class="dashboard">
+
+                <ul>
+                    <li><a href="">Contact Us</a></li>
+    
+                </ul>
+    
+                <form action="/analysis/upload">
+                    <button type="submit" class="btn">Analyze Image</button>
+                  </form>
+    
+            </div>
+
+            {% block content %}
+            {% endblock %}
+
+        </div>
+        
+
+    </body>
+    <!-- MAIN JS -->
+    <script src="{{ url_for('static', path='js/dashboard.js') }}"></script>
+</html>
