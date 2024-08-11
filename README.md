@@ -4,6 +4,8 @@
 
  > A web application that uses AI to analyze crops for pests and diseases then advises framers on what to do. 
 
+ The application consists of 
+
  ## Application Demo
 
 The application supports the following operations:
