@@ -67,9 +67,9 @@ class MaizeNet(nn.Module):
         return out
     
     
-def load_model(model_path: str):
+def load_model(model_path: str, device: str = 'cpu'):
     """Load the pytorch model."""
     n_classes = 4
     maizenet = MaizeNet(n_classes)
-    maizenet.load_state_dict(torch.load(model_path, map_location=torch.device('cpu') ))
+    maizenet.load_state_dict(torch.load(model_path, map_location=torch.device(device) ))
     return maizenet

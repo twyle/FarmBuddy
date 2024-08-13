@@ -21,7 +21,7 @@
             <div>
                 <a href="/" class="nav__logo">
                     <img src="{{ url_for('static', path='img/logo.svg') }}" alt="" class="nav__logo-icon">
-                    <span class="nav__logo-text">Bedimcode</span>
+                    <span class="nav__logo-text">FarmBuddy</span>
                 </a>
 
                 <div class="nav__toggle" id="nav-toggle">
@@ -45,6 +45,10 @@
                         <i class='bx bx-message-rounded nav__icon'></i>
                         <span class="nav__text">Chat</span>
                     </a>
+                    <a href="/analysis/find_aggrovets" class="nav__link">
+                        <i class='bx bxs-map nav__icon'></i>
+                        <span class="nav__text">Aggrovets</span>
+                    </a> 
                 </ul>
             </div>
             <a href="#" class="nav__link">
@@ -64,7 +68,9 @@
 
             </ul>
 
-            <button class="btn">Analyze Image</button>
+            <form action="/analysis/upload">
+                <button type="submit" class="btn">Analyze Image</button>
+              </form>
 
         </div>
 
@@ -73,19 +79,17 @@
             <div class="right">
 
                 <h3>What did the analysis discover?</h3>
-                <h4> This plant is infected with {{ analysis['prediction'] }}</h4>
+                {% if analysis['prediction'] == 'Healthy' %}
+                    <h4>This plant is healthy</h4>
+                {% else %}
+                    <h4> This plant is infected with {{ analysis['prediction'] }}</h4>
+                {% endif %}
                 <p>
-                    Common rust is caused by the fungus Puccinia sorghi and occurs every
-                    growing season. It is seldom a concern in hybrid corn. Rust pustules
-                    usually first appear in late June. Early symptoms of common rust are
-                    chlorotic flecks on the leaf surface. These soon develop into powdery,
-                    brick-red pustules as the spores break through the leaf surface.
-                    Pustules are oval or elongated, about 1/8 inch long, and scattered
-                    sparsely or clustered together. The leaf tissue around the pustules
-                    may become yellow or die, leaving lesions of dead tissue. The lesions
-                    sometimes form a band across the leaf and entire leaves will die if
-                    severely infected.
+                    {{ disease }}
                 </p>
+                <form action="/analysis/find_aggrovets">
+                    <button type="submit" class="btn">Find Aggrovets</button>
+                </form>
                 <div class="table">
 
                     <table class="table table-striped">
@@ -126,6 +130,9 @@
         </div>
 
     </div>
+
+
+    
 
 
 

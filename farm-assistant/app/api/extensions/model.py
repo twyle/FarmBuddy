@@ -74,8 +74,7 @@ class ChatModel():
         ) -> str:
         llm_with_tools: Runnable = llm.bind_tools(tools=list(tools.values()))
         content: str = ""
-        response: AIMessage = llm_with_tools.invoke(messages)
-        print(response)
+        response: AIMessage = llm.invoke(messages)
         if response.content:
             content = response.content
             return AIMessage(content=content)
@@ -90,7 +89,6 @@ class ChatModel():
                 message = ToolMessage(tool_output, tool_call_id=tool_call["id"])
                 messages.append(message)
             response: AIMessage = llm_with_tools.invoke(messages)
-            print(response)
             return response
         
     def chat(self, message: str):
@@ -106,7 +104,6 @@ class ChatModel():
                 llm=self.llm, 
                 tools=tools
             )
-            print(response)
         except Exception as e:
             print(e)
             response = self.llm.invoke(messages)
@@ -114,10 +111,10 @@ class ChatModel():
 
 
 class MaizeModel():
-    def __init__(self, model_path: str = None) -> None:
-        self.model: nn.Module = None
-        if model_path and path.exists(model_path):
-            self.model = load_model(model_path=model_path)
+    def __init__(self, model_path: str = '/home/lyle/Downloads/test.pt', device: str = 'cpu') -> None:
+        self.device: str = device
+        self.model = load_model(model_path=model_path)
+        self.model.to(self.device)
         
     def analyze_image(self, image: Image = None) -> tuple[str, dict[str, float]]:
         logits: list[float] = [random.uniform(0, 1) for _ in range(4)]
@@ -147,16 +144,16 @@ class MaizeModel():
                 transforms.ToTensor(), # convert to pytorch tensor data type
                 transforms.Normalize(mean, std) # normalize the input image dataset.
             ])
-        transformed_image = data_transform(image).to('cpu')
+        transformed_image = data_transform(image).to(self.device)
         transformed_image = torch.unsqueeze(transformed_image, 0)
         return transformed_image
 
 
-    def evaluate_image(self, image: Image, model) -> tuple[str, dict[str, float]]:
+    def evaluate_image(self, image: Image) -> tuple[str, dict[str, float]]:
         transformed_image = self.preprocess_image(image)
         labels = ['Maize Leaf Rust', 'Northern Leaf Blight', 'Healthy', 'Gray Leaf Spot']
         self.model.eval()
-        prediction = F.softmax(model(transformed_image), dim = 1)
+        prediction = F.softmax(self.model(transformed_image), dim = 1)
         data = {
             'Maize Leaf Rust': round(float(prediction[0][0]), 4) * 100,
             'Northern Leaf Blight': round(float(prediction[0][1]) * 100, 4),

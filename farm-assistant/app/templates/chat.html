@@ -20,7 +20,7 @@
                 <div>
                     <a href="/" class="nav__logo">
                         <img src="{{ url_for('static', path='img/logo.svg') }}" alt="" class="nav__logo-icon">
-                        <span class="nav__logo-text">Bedimcode</span>
+                        <span class="nav__logo-text">FarmBuddy</span>
                     </a>
     
                     <div class="nav__toggle" id="nav-toggle">
@@ -43,7 +43,11 @@
                         <a href="/chat" class="nav__link active">
                             <i class='bx bx-message-rounded nav__icon' ></i>
                             <span class="nav__text">Chat</span>
-                        </a>                 
+                        </a>    
+                        <a href="/analysis/find_aggrovets" class="nav__link">
+                            <i class='bx bxs-map nav__icon'></i>
+                            <span class="nav__text">Aggrovets</span>
+                        </a>              
                     </ul>
                 </div>
                 <a href="/" class="nav__link">           

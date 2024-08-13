@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/popup.css') }}">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <title>Find Aggrovets</title>
+</head>
+<body>
+    
+    <main>
+        <div class="container">
+            <div class="form-box">
+
+                <h1>Find Aggrovets</h1>
+
+                <form action="/analysis/display_aggrovets", method="post">
+                    <div class="input-group">
+
+                        <div class="input-field">
+                            <i class="uil uil-padlock"></i>
+                            <input type="text" name="location" placeholder="Where is your current location?" id="">
+                        </div>
+
+                        <div class="input-field">
+                            <i class="uil uil-padlock"></i>
+                            <select id="radius" name="radius">
+                                <option value="immediate">1 km around you</option>
+                                <option value="near">5 kms around you</option>
+                                <option value="far">10 kms around you</option>
+                            </select>
+                        </div>
+
+                        <p>
+                            Need more information? <a href="/chat">Chat with an expert</a>
+                        </p>
+
+                    </div>
+
+                    <div class="btn-field">
+                        <button type="submit">Find Aggrovets</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
