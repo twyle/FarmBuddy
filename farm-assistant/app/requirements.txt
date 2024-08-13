@@ -1,0 +1,11 @@
+fastapi
+torch
+torchvision
+numpy
+pillow
+pydantic
+googlemaps
+uvicorn
+langchain
+langchain-groq
+python-multipart
