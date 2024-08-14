@@ -1,1 +1,1 @@
-from .model import MaizeModel, ChatModel
+from .model import MaizeModel, ChatModel, PestModel

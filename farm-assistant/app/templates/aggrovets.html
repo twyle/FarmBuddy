@@ -81,7 +81,7 @@
 
             <gmp-map center="{{context['center']['lat']}},{{context['center']['lng']}}" zoom="{{ context['zoom'] }}" map-id="context['map_id']">
                 {% for aggrovet in context['aggrovets'] %}
-                <gmp-advanced-marker position="{{aggrovet['location']['lat']}},{{aggrovet['location']['lng']}}" title="{{ aggrovet['name'] }}"></gmp-advanced-marker>
+                <gmp-advanced-marker position="{{aggrovet['location']['lat']}},{{aggrovet['location']['lng']}}" title="{{ aggrovet['name'] }}, {{ aggrovet['details']['formatted_phone_number'] }}"></gmp-advanced-marker>
                 {% endfor %}
             </gmp-map>
 

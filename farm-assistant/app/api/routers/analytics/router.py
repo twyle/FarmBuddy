@@ -2,13 +2,13 @@ from fastapi import status, HTTPException
 from fastapi import APIRouter, Request, UploadFile, File, Form
 from fastapi.responses import HTMLResponse
 from ..routers_config import templates, INFECTED, HEALTHY
-from ...extensions import MaizeModel, ChatModel
+from ...extensions import MaizeModel, ChatModel, PestModel
 from typing import Annotated
 from PIL import Image
 import uuid
 from os import path
 import pathlib
-from .utils import geocode_location, get_agrovets
+from .utils import geocode_location, get_agrovets, get_aggrovet_details
 import os
    
 
@@ -34,12 +34,17 @@ def save_image(file: UploadFile) -> str:
 
 
 @router.post('/analyze', status_code=status.HTTP_200_OK, response_class=HTMLResponse)
-async def analyze_image(request: Request, file: Annotated[UploadFile, File]):
+async def analyze_image(request: Request, file: Annotated[UploadFile, File], model: Annotated[str, Form()]):
     """Manage tokens"""
     # if file.content_type not in ['image/gif']:
     #     return HTTPException(status_code=400, detail="Only images of type jpeg and png are accepted!")
-    model: MaizeModel = request.state.model
-    analysis: dict = model.evaluate_image(image=Image.open(file.file))
+    print(model)
+    if model == 'maize':
+        maize_model: MaizeModel = request.state.maize_model
+        analysis: dict = maize_model.evaluate_image(image=Image.open(file.file))
+    else:
+        pest_model: PestModel = request.state.pest_model
+        analysis: dict = pest_model.evaluate_image(image=Image.open(file.file))
     print(analysis)
     disease: str = analysis['prediction']
     response: str = None
@@ -102,6 +107,7 @@ async def display_aggrovets(
     api_key: str = os.environ['GOOGLE_MAPS_API_KEY']
     center: dict = geocode_location(location=location) 
     aggrovets: list[dict[str, float]] = get_agrovets(location=center['address'])
+    print(aggrovets)
     context: dict = {
         'api_key': api_key,
         'zoom': 15,

@@ -10,7 +10,14 @@ def geocode_location(location: str) -> dict[str, float]:
     return {'location': location, 'address': address}
 
 
-def get_agrovets(location: str) -> list[dict]:
+def get_aggrovet_details(place_id: str) -> dict:
+    gmaps = googlemaps.Client(key=os.environ['GOOGLE_MAPS_API_KEY'])
+    result: dict = gmaps.place(place_id=place_id)
+    aggrovet: dict = {}
+    aggrovet['formatted_phone_number'] = result['result']['formatted_phone_number']
+    return aggrovet
+
+def get_agrovets(location: str) -> str:
     """Useful when you need to get agrovets in a given location. Give it a query, such as 
     agrovets in Nairobi, Kenya. Only use this tool to find aggrovets!
     """
@@ -19,11 +26,13 @@ def get_agrovets(location: str) -> list[dict]:
     aggrovet_locations: list[str] = list()
     for result in results['results']:
         try:
-            bussiness: dict = dict()  
-            bussiness['formatted_address'] = result['formatted_address']
-            bussiness['name'] = result['name']
-            bussiness['location'] = result['geometry']['location']
-            aggrovet_locations.append(bussiness)
-        except:
-            pass
+            aggrovet: dict = dict()  
+            aggrovet['formatted_address'] = result['formatted_address']
+            aggrovet['name'] = result['name']
+            aggrovet['location'] = result['geometry']['location']
+            aggrovet['place_id'] = result['place_id']
+            aggrovet['details'] = get_aggrovet_details(place_id=result['place_id'])
+            aggrovet_locations.append(aggrovet)
+        except Exception as e:
+            print(e)
     return aggrovet_locations

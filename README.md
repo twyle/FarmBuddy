@@ -51,7 +51,8 @@ touch .env
 GROQ_API_KEY=gsk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 GOOGLE_MAPS_API_KEY=AIxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 # Replace /home/lyle/Downloads/test.pt with the full path to the model
-MODEL_DIRECTORY=/home/lyle/Downloads/test.pt
+MAIZE_MODEL_DIRECTORY=/home/lyle/Downloads/test.pt
+PEST_MODEL_DIRECTORY=/home/lyle/Downloads/PestNet.pkl
 ```
 3. Install the project requrements
 ```sh
