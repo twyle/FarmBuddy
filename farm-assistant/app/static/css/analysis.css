@@ -81,3 +81,7 @@
   .agrovets{
     width: 60%;
   }
+
+  .table{
+    max-height: 400px;
+  }

@@ -2,7 +2,7 @@ from fastapi import status, HTTPException
 from fastapi import APIRouter, Request, UploadFile, File, Form
 from fastapi.responses import HTMLResponse
 from ..routers_config import templates, INFECTED, HEALTHY
-from ...extensions import MaizeModel, ChatModel, PestModel
+from ...extensions import MaizeModel, ChatModel, PestModel, TomatoModel
 from typing import Annotated
 from PIL import Image
 import uuid
@@ -42,6 +42,9 @@ async def analyze_image(request: Request, file: Annotated[UploadFile, File], mod
     if model == 'maize':
         maize_model: MaizeModel = request.state.maize_model
         analysis: dict = maize_model.evaluate_image(image=Image.open(file.file))
+    elif model == 'tomato':
+        tomato_model: TomatoModel = request.state.tomato_model
+        analysis: dict = tomato_model.evaluate_image(image=Image.open(file.file))
     else:
         pest_model: PestModel = request.state.pest_model
         analysis: dict = pest_model.evaluate_image(image=Image.open(file.file))

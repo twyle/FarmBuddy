@@ -53,6 +53,8 @@ GOOGLE_MAPS_API_KEY=AIxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 # Replace /home/lyle/Downloads/test.pt with the full path to the model
 MAIZE_MODEL_DIRECTORY=/home/lyle/Downloads/test.pt
 PEST_MODEL_DIRECTORY=/home/lyle/Downloads/PestNet.pkl
+TOMATO_MODEL_DIRECTORY=/home/lyle/Downloads/PestNet.pkl
+
 ```
 3. Install the project requrements
 ```sh
