@@ -67,7 +67,7 @@ class MaizeNet(nn.Module):
         return out
     
     
-def load_model(model_path: str, device: str = 'cpu'):
+def load_maize_model(model_path: str, device: str = 'cpu'):
     """Load the pytorch model."""
     n_classes = 4
     maizenet = MaizeNet(n_classes)

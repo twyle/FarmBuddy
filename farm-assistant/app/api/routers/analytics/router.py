@@ -2,11 +2,12 @@ from fastapi import status, HTTPException
 from fastapi import APIRouter, Request, UploadFile, File, Form
 from fastapi.responses import HTMLResponse
 from ..routers_config import templates, INFECTED, HEALTHY
-from ...extensions import MaizeModel, ChatModel, PestModel, TomatoModel
+from ...extensions import MLModel, ChatModel
 from typing import Annotated
 from PIL import Image
 import uuid
 from os import path
+import sys
 import pathlib
 from .utils import geocode_location, get_agrovets, get_aggrovet_details
 import os
@@ -27,7 +28,7 @@ def save_image(file: UploadFile) -> str:
     extension: str = pathlib.Path(file.filename).suffix
     image = Image.open(file.file)
     file_name: str = f"{str(uuid.uuid4())}{extension}"
-    files_path: str = "/home/lyle/Professional Projects/model-deployments/farm-assistant/app/static/files"
+    files_path: str = path.join('.', 'static', 'files')
     file_path: str = path.join(files_path, file_name)
     image.save(file_path) 
     return file_name
@@ -36,22 +37,17 @@ def save_image(file: UploadFile) -> str:
 @router.post('/analyze', status_code=status.HTTP_200_OK, response_class=HTMLResponse)
 async def analyze_image(request: Request, file: Annotated[UploadFile, File], model: Annotated[str, Form()]):
     """Manage tokens"""
-    # if file.content_type not in ['image/gif']:
-    #     return HTTPException(status_code=400, detail="Only images of type jpeg and png are accepted!")
-    print(model)
     if model == 'maize':
-        maize_model: MaizeModel = request.state.maize_model
+        maize_model: MLModel = request.state.maize_model
         analysis: dict = maize_model.evaluate_image(image=Image.open(file.file))
     elif model == 'tomato':
-        tomato_model: TomatoModel = request.state.tomato_model
+        tomato_model: MLModel = request.state.tomato_model
         analysis: dict = tomato_model.evaluate_image(image=Image.open(file.file))
     else:
-        pest_model: PestModel = request.state.pest_model
+        pest_model: MLModel = request.state.pest_model
         analysis: dict = pest_model.evaluate_image(image=Image.open(file.file))
-    print(analysis)
     disease: str = analysis['prediction']
     response: str = None
-    print(disease)
     chat_model: ChatModel = request.state.chat_model
     if disease == 'Healthy':
         response = chat_model.chat(message=HEALTHY)
@@ -59,8 +55,6 @@ async def analyze_image(request: Request, file: Annotated[UploadFile, File], mod
         query: str = INFECTED.format(disease=disease)
         response = chat_model.chat(message=query)
     file_uri: str = save_image(file=file)
-    print(file_uri)
-    print(response)
     return templates.TemplateResponse(
         "analysis.html", 
         {
